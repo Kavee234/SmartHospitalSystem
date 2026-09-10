@@ -129,10 +129,14 @@ void generateBill(int i) {
     double discount = calcAgeDiscount(patientAges[i], grossTotal);
     double finalAmount = grossTotal - discount;
     double waitTime = calcWaitingTime(patientSpecialty[i]);
+    double surchargePercent = 0.0;
+        if (patientUrgency[i] == 2) surchargePercent = 20.0;
+        else if (patientUrgency[i] == 3) surchargePercent = 50.0;
+    double discountPercent = (patientAges[i] < 5 || patientAges[i] > 65) ? 15.0 : 0.0;
 
-    printf("\n=====================================================\n");
-    printf("           SMART HOSPITAL ADMISSION & BILL           \n");
-    printf("-----------------------------------------------------\n");
+    printf("\n===============================================================\n");
+    printf("                SMART HOSPITAL ADMISSION & BILL                \n");
+    printf("---------------------------------------------------------------\n");
     printf("Patient ID                  : PAT-%04d\n", 1000+i+1);
     printf("Patient Name                : %s\n", patientNames[i]);
     printf("Age                         : %d Years%s\n", patientAges[i],
@@ -143,17 +147,17 @@ void generateBill(int i) {
     else
         printf("Assigned Ward               : Outpatient\n");
     printf("Urgency Level               : Level %d\n", patientUrgency[i]);
-    printf("-----------------------------------------------------\n");
+    printf("---------------------------------------------------------------\n");
     printf("Base Consultation Fee       : LKR %8.2f\n", baseFee);
-    printf("Emergency Surcharge         : LKR %8.2f\n", surcharge);
+    printf("Emergency Surcharge         : LKR %8.2f (%.0f%%)\n", surcharge, surchargePercent);
     printf("Ward Stay Cost (%d Days)     : LKR %8.2f\n", patientDays[i], wardCost);
-    printf("-----------------------------------------------------\n");
+    printf("---------------------------------------------------------------\n");
     printf("Gross Total Bill            : LKR %8.2f\n", grossTotal);
-    printf("Age Subsidy Discount        : LKR %8.2f\n", discount);
-    printf("-----------------------------------------------------\n");
+    printf("Age Subsidy Discount        : LKR -%8.2f (%.0f%%)\n", discount, discountPercent);
+    printf("---------------------------------------------------------------\n");
     printf("Final Payable Amount        : LKR %8.2f\n", finalAmount);
     printf("Estimated Waiting Time      : %.2f mins\n", waitTime);
-    printf("=====================================================\n");
+    printf("===============================================================\n");
 }
 
 double calcWaitingTime(int specialtyID) {
