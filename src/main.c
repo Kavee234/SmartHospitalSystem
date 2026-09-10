@@ -225,9 +225,9 @@ void listPatients() {
         return;
     }
 
-    printf("\n====================================================\n");
-    printf("--------- Patient List (Sorted by Urgency) ---------\n");
-    printf("====================================================\n");
+    printf("\n========================================================\n");
+    printf("----------- Patient List (Sorted by Urgency) -----------\n");
+    printf("========================================================\n");
     for (int i = 0; i < patientCount; i++) {
         printf("ID %d | Name: %s | Age: %d | Urgency: %d | Specialty: %s\n",
                i+1, patientNames[i], patientAges[i], patientUrgency[i],
