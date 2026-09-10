@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 
 #define MAX_PATIENTS 100
 #define NUM_SPECIALTIES 4
@@ -158,6 +159,11 @@ void generateBill(int i) {
     printf("Final Payable Amount        : LKR %8.2f\n", finalAmount);
     printf("Estimated Waiting Time      : %.2f mins\n", waitTime);
     printf("===============================================================\n");
+
+    printf("\nPress Enter to continue...");
+    getchar(); getchar();
+
+    system("cls");
 }
 
 double calcWaitingTime(int specialtyID) {
