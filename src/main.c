@@ -5,6 +5,8 @@
 #define NUM_SPECIALTIES 4
 #define NUM_WARDS 4
 
+void sortPatientsByUrgency();
+void listPatients();
 void showSpecialties();
 void showWards();
 void registerPatient();
@@ -33,37 +35,41 @@ const double wardRates[NUM_WARDS] = {3000.0, 6000.0, 12000.0, 25000.0};
 int main() {
     int choice;
     do {
-        printf("\n-----------------------------\n");
+        printf("\n=============================\n");
         printf("### Smart Hospital System ###\n");
-        printf("-----------------------------\n");
-        printf("1. Register New Patient\n");
-        printf("2. Exit\n");
+        printf("=============================\n");
+        printf("1. Register Patient\n");
+        printf("2. Sort Patients by Urgency\n");
+        printf("3. List Patients\n");
+        printf("4. Exit\n");
         printf("Enter choice: ");
         scanf("%d", &choice);
 
         switch(choice) {
             case 1: registerPatient(); break;
-            case 2: printf("Exiting...\n"); break;
+            case 2: sortPatientsByUrgency(); printf("Patients sorted by urgency!\n"); break;
+            case 3: listPatients(); break;
+            case 4: printf("Exiting...\n"); break;
             default: printf("Invalid choice.\n");
         }
-    } while(choice != 2);
+    } while(choice != 4);
 
     return 0;
 }
 
 void showSpecialties() {
-    printf("\n--------------------------------\n");
+    printf("\n================================\n");
     printf("------ Doctor Specialties ------\n");
-    printf("--------------------------------\n");
+    printf("================================\n");
     for (int i = 0; i < NUM_SPECIALTIES; i++) {
         printf("ID %d: %s\n", i+1, specialtyNames[i]);
     }
 }
 
 void showWards() {
-    printf("\n--------------------------\n");
+    printf("\n==========================\n");
     printf("----- Hospital Wards -----\n");
-    printf("--------------------------\n");
+    printf("==========================\n");
     for (int i = 0; i < NUM_WARDS; i++) {
         printf("ID %d: %s\n", i+1, wardNames[i]);
     }
@@ -75,18 +81,18 @@ void registerPatient() {
         return;
     }
 
-    printf("\n--------------------------------------\n");
+    printf("\n======================================\n");
     printf("-------- Register New Patient --------\n");
-    printf("--------------------------------------\n");
+    printf("======================================\n");
     printf("Enter Patient's Name: ");
     scanf(" %[^\n]", patientNames[patientCount]);
 
     printf("Enter Age: ");
     scanf("%d", &patientAges[patientCount]);
 
-    printf("\n---------------------\n");
+    printf("\n=====================\n");
     printf("--- Urgency Level ---\n");
-    printf("---------------------\n");
+    printf("=====================\n");
     printf("1 = Normal\n2 = Urgent\n3 = Critical\n");
     printf("Enter Urgancy Level: ");
     scanf("%d", &patientUrgency[patientCount]);
@@ -168,5 +174,60 @@ double calcWardCost(int wardID, int days) {
 double calcAgeDiscount(int age, double grossTotal) {
     if (age < 5 || age > 65) return grossTotal * 0.15;
     return 0.0;
+}
+
+void sortPatientsByUrgency() {
+    if (patientCount == 0) {
+        printf("\nNo patients registered yet. Please register patients first.\n");
+        return;
+    }
+
+    for (int i = 0; i < patientCount-1; i++) {
+        for (int j = i+1; j < patientCount; j++) {
+            if (patientUrgency[i] < patientUrgency[j]) {
+                char tempName[50];
+                strcpy(tempName, patientNames[i]);
+                strcpy(patientNames[i], patientNames[j]);
+                strcpy(patientNames[j], tempName);
+
+                int tempAge = patientAges[i];
+                patientAges[i] = patientAges[j];
+                patientAges[j] = tempAge;
+
+                int tempUrg = patientUrgency[i];
+                patientUrgency[i] = patientUrgency[j];
+                patientUrgency[j] = tempUrg;
+
+                int tempSpec = patientSpecialty[i];
+                patientSpecialty[i] = patientSpecialty[j];
+                patientSpecialty[j] = tempSpec;
+
+                int tempWard = patientWard[i];
+                patientWard[i] = patientWard[j];
+                patientWard[j] = tempWard;
+
+                int tempDays = patientDays[i];
+                patientDays[i] = patientDays[j];
+                patientDays[j] = tempDays;
+            }
+        }
+    }
+    printf("\nPatients sorted by urgency successfully.\n");
+}
+
+void listPatients() {
+    if (patientCount == 0) {
+        printf("\nNo patients registered yet. Please register patients first.\n");
+        return;
+    }
+
+    printf("\n====================================================\n");
+    printf("--------- Patient List (Sorted by Urgency) ---------\n");
+    printf("====================================================\n");
+    for (int i = 0; i < patientCount; i++) {
+        printf("ID %d | Name: %s | Age: %d | Urgency: %d | Specialty: %s\n",
+               i+1, patientNames[i], patientAges[i], patientUrgency[i],
+               specialtyNames[patientSpecialty[i]-1]);
+    }
 }
 
