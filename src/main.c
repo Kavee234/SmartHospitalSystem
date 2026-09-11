@@ -103,7 +103,7 @@ void registerPatient() {
     scanf("%d", &patientSpecialty[patientCount]);
     specialtyQueue[patientSpecialty[patientCount]-1]++;
 
-    printf("\nAdmitted to Ward? (1=Yes, 0=No): ");
+    printf("\nAdmitted to Ward?\n Yes = 1 , No = 0\n Enter your choice: ");
     int admitted;
     scanf("%d", &admitted);
 
