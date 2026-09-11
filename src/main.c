@@ -16,6 +16,7 @@ double calcWaitingTime(int specialtyID);
 double calcEmergencySurcharge(int urgency, double baseFee);
 double calcWardCost(int wardID, int days);
 double calcAgeDiscount(int age, double grossTotal);
+void viewRegisteredPatients();
 
 char patientNames[MAX_PATIENTS][50];
 int patientAges[MAX_PATIENTS];
@@ -42,18 +43,20 @@ int main() {
         printf("1. Register Patient\n");
         printf("2. Sort Patients by Urgency\n");
         printf("3. List Patients\n");
-        printf("4. Exit\n");
+        printf("4. View Already Registered Patient's Details\n");
+        printf("5. Exit\n");
         printf("Enter choice: ");
         scanf("%d", &choice);
 
         switch(choice) {
             case 1: registerPatient(); break;
-            case 2: sortPatientsByUrgency(); printf("Patients sorted by urgency!\n"); break;
+            case 2: sortPatientsByUrgency(); break;
             case 3: listPatients(); break;
-            case 4: printf("Exiting...\n"); break;
+            case 4: viewRegisteredPatients(); break;
+            case 5: printf("Exiting...\n"); break;
             default: printf("Invalid choice.\n");
         }
-    } while(choice != 4);
+    } while(choice != 5);
 
     return 0;
 }
@@ -240,4 +243,19 @@ void listPatients() {
                specialtyNames[patientSpecialty[i]-1]);
     }
 }
+
+void viewRegisteredPatients() {
+    if (patientCount == 0) {
+        printf("\nNo patients registered yet. Please register patients first.\n");
+        return;
+    }
+
+    printf("\n===========================================================\n");
+    printf("-------  Already Registered Patients & Their Bills  -------\n");
+    printf("===========================================================\n");
+    for (int i = 0; i < patientCount; i++) {
+        generateBill(i);
+    }
+}
+
 
