@@ -38,7 +38,7 @@ int main() {
     int choice;
     do {
         printf("\n=============================\n");
-        printf("### Smart Hospital System ###\n");
+        printf("--- Smart Hospital System ---\n");
         printf("=============================\n");
         printf("1. Register Patient\n");
         printf("2. Sort Patients by Urgency\n");
