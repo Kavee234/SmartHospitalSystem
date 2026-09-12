@@ -17,6 +17,8 @@ double calcEmergencySurcharge(int urgency, double baseFee);
 double calcWardCost(int wardID, int days);
 double calcAgeDiscount(int age, double grossTotal);
 void viewRegisteredPatients();
+void admissionsReport();
+void wardOccupancyReport();
 
 char patientNames[MAX_PATIENTS][50];
 int patientAges[MAX_PATIENTS];
@@ -37,14 +39,16 @@ const double wardRates[NUM_WARDS] = {3000.0, 6000.0, 12000.0, 25000.0};
 int main() {
     int choice;
     do {
-        printf("\n=============================\n");
-        printf("--- Smart Hospital System ---\n");
-        printf("=============================\n");
+        printf("\n=============================================\n");
+        printf("--------    Smart Hospital System    --------\n");
+        printf("=============================================\n");
         printf("1. Register Patient\n");
         printf("2. Sort Patients by Urgency\n");
         printf("3. List Patients\n");
         printf("4. View Already Registered Patient's Details\n");
-        printf("5. Exit\n");
+        printf("5. Admissions Report\n");
+        printf("6. Ward Occupancy Report\n");
+        printf("7. Exit\n");
         printf("Enter choice: ");
         scanf("%d", &choice);
 
@@ -53,10 +57,12 @@ int main() {
             case 2: sortPatientsByUrgency(); break;
             case 3: listPatients(); break;
             case 4: viewRegisteredPatients(); break;
-            case 5: printf("Exiting...\n"); break;
+            case 5: admissionsReport(); break;
+            case 6: wardOccupancyReport(); break;
+            case 7: printf("Exiting...\n"); break;
             default: printf("Invalid choice.\n");
         }
-    } while(choice != 5);
+    } while(choice != 7);
 
     return 0;
 }
@@ -257,5 +263,39 @@ void viewRegisteredPatients() {
         generateBill(i);
     }
 }
+
+void admissionsReport() {
+    if (patientCount == 0) {
+        printf("\nNo patients registered yet. Please register patients first.\n");
+        return;
+    }
+
+    printf("\n=======================================\n");
+    printf("------     Admissions Report     ------\n");
+    printf("=======================================\n");
+    printf("Total Patients Registered: %d\n", patientCount);
+}
+
+void wardOccupancyReport() {
+    if (patientCount == 0) {
+        printf("\nNo patients registered yet. Please register patients first.\n");
+        return;
+    }
+
+    int wardCounts[NUM_WARDS] = {0};
+    for (int i = 0; i < patientCount; i++) {
+        if (patientWard[i] != 0) {
+            wardCounts[patientWard[i]-1]++;
+        }
+    }
+
+    printf("\n=======================================\n");
+    printf("-----    Ward Occupancy Report    -----\n");
+    printf("=======================================\n");
+    for (int w = 0; w < NUM_WARDS; w++) {
+        printf("%16s: %d patients\n", wardNames[w], wardCounts[w]);
+    }
+}
+
 
 
