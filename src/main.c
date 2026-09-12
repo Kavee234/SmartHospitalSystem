@@ -240,9 +240,9 @@ void listPatients() {
         return;
     }
 
-    printf("\n========================================================\n");
-    printf("----------- Patient List (Sorted by Urgency) -----------\n");
-    printf("========================================================\n");
+    printf("\n==============================================================================\n");
+    printf("---------------        Patient List (Sorted by Urgency)        ---------------\n");
+    printf("==============================================================================\n");
     for (int i = 0; i < patientCount; i++) {
         printf("ID %d | Name: %s | Age: %d | Urgency: %d | Specialty: %s\n",
                i+1, patientNames[i], patientAges[i], patientUrgency[i],
@@ -267,6 +267,9 @@ void viewRegisteredPatients() {
 void admissionsReport() {
     if (patientCount == 0) {
         printf("\nNo patients registered yet. Please register patients first.\n");
+        printf("Press Enter to continue...");
+        getchar(); getchar();
+        system("cls");
         return;
     }
 
@@ -274,11 +277,18 @@ void admissionsReport() {
     printf("------     Admissions Report     ------\n");
     printf("=======================================\n");
     printf("Total Patients Registered: %d\n", patientCount);
+
+    printf("\nPress Enter to continue...");
+    getchar(); getchar();
+    system("cls");
 }
 
 void wardOccupancyReport() {
     if (patientCount == 0) {
         printf("\nNo patients registered yet. Please register patients first.\n");
+        printf("\nPress Enter to continue...");
+        getchar(); getchar();
+        system("cls");
         return;
     }
 
@@ -293,8 +303,12 @@ void wardOccupancyReport() {
     printf("-----    Ward Occupancy Report    -----\n");
     printf("=======================================\n");
     for (int w = 0; w < NUM_WARDS; w++) {
-        printf("%16s: %d patients\n", wardNames[w], wardCounts[w]);
+        printf("%-16s: %d patients\n", wardNames[w], wardCounts[w]);
     }
+
+    printf("\nPress Enter to continue...");
+    getchar(); getchar();
+    system("cls");
 }
 
 
